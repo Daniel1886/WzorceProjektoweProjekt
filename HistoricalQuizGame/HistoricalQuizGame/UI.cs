@@ -9,12 +9,12 @@ namespace HistoricalQuizGame
         public int WindowWidth { get; set; }
         public int WindowHeight { get; set; }
 
-        private char[,] matrix;
+        private MatrixNode[,] matrix;
         public UI(int windowWidth,int windowHeight)
         {
             this.WindowHeight = windowHeight;
             this.WindowWidth = windowWidth;
-            matrix = new char[this.WindowWidth, this.WindowHeight];            
+            matrix = new MatrixNode[this.WindowWidth, this.WindowHeight];            
         }
         public void InitWindow()
         {
@@ -22,21 +22,25 @@ namespace HistoricalQuizGame
             {
                 for (int x = 0; x < WindowWidth; x++)
                 {
-                    matrix[x, y] = ' ';
+                    matrix[x, y] = new MatrixNode(' ');
                 }
             }
         }
         public void Refresh()
         {
             Console.Clear();
+            Console.ResetColor();
             for (int y = 0; y < WindowHeight; y++)
             {
                 for (int x = 0; x < WindowWidth; x++)
                 {
-                    Console.Write(matrix[x, y]);
+                    Console.ForegroundColor = matrix[x, y].textColor;
+                    Console.BackgroundColor = matrix[x, y].backgroundColor;
+                    Console.Write(matrix[x, y].sign);
                 }
                 Console.Write("\n");
             }
+            Console.ResetColor();
         }
         public void DrowWindow()
         {
@@ -54,7 +58,7 @@ namespace HistoricalQuizGame
                 for(int i = 0; i < t.Length; i++)
                 {
                     
-                    matrix[lineRange, lines] = t[i];
+                    matrix[lineRange, lines].sign = t[i];
                     lineRange += 1;
                     if(lineRange >= WindowWidth -1 )
                     {
@@ -77,25 +81,42 @@ namespace HistoricalQuizGame
             if (p.x >= 1 && p.x < WindowWidth - 1 && p.y >= 1 && p.y < WindowHeight - 1)
             {
                 
-                matrix[lineRange - 1, lines -1] = '|';
-                matrix[lineRange -1 , lines] = '|';
-                matrix[lineRange - 1, lines + 1] = '|';
+                matrix[lineRange - 1, lines -1].sign = ' ';
+                matrix[lineRange - 1, lines - 1].backgroundColor = button.borderColor;
+
+                matrix[lineRange -1 , lines].sign = ' ';
+                matrix[lineRange - 1, lines].backgroundColor = button.borderColor;
+
+                matrix[lineRange - 1, lines + 1].sign = ' ';
+                matrix[lineRange - 1, lines + 1].backgroundColor = button.borderColor;
 
                 for (int i = 0; i < t.Length; i++)
                 {
 
-                    matrix[lineRange , lines - 1] = '=';
-                    matrix[lineRange , lines] = t[i];
-                    matrix[lineRange, lines + 1] = '=';                 
+                    matrix[lineRange , lines - 1].sign = ' ';
+                    matrix[lineRange, lines - 1].backgroundColor = button.borderColor;
+
+                    matrix[lineRange , lines].sign = t[i];
+                    matrix[lineRange, lines].textColor = button.textColor;
+                    matrix[lineRange, lines].backgroundColor = button.backgroundColor;
+
+
+                    matrix[lineRange, lines + 1].sign = ' ';
+                    matrix[lineRange, lines + 1].backgroundColor = button.borderColor;
 
                     lineRange += 1;
                     if (lineRange >= WindowWidth)
                         break;
                                     
                 }
-                matrix[lineRange , lines - 1] = '|';
-                matrix[lineRange, lines] = '|';
-                matrix[lineRange , lines + 1] = '|';
+                matrix[lineRange , lines - 1].sign = ' ';
+                matrix[lineRange, lines - 1].backgroundColor = button.borderColor;
+
+                matrix[lineRange, lines].sign = ' ';
+                matrix[lineRange, lines].backgroundColor = button.borderColor;
+
+                matrix[lineRange , lines + 1].sign = ' ';
+                matrix[lineRange, lines + 1].backgroundColor = button.borderColor;
 
 
 
@@ -109,25 +130,27 @@ namespace HistoricalQuizGame
                 {
                     if (y == 0)
                     {
-                        matrix[x, y] = '=';
+                        matrix[x, y].sign = ' ';
+                        matrix[x, y].backgroundColor = ConsoleColor.DarkYellow;
                     }
                     if (y == WindowHeight - 1 )
                     {
-                        matrix[x, y] = '=';
+                        matrix[x, y].sign = ' ';
+                        matrix[x, y].backgroundColor = ConsoleColor.DarkYellow;
                     }
                     if(x == 0)
                     {
-                        matrix[x, y] = '|';
-                        
+                        matrix[x, y].sign = ' ';
+                        matrix[x, y].backgroundColor = ConsoleColor.DarkYellow;
+
                     }
                     if (x == WindowWidth - 1)
                     {
-                        matrix[x, y] = '|';
+                        matrix[x, y].sign = ' ';
+                        matrix[x, y].backgroundColor = ConsoleColor.DarkYellow;
                     }
-                    Console.Write(matrix[x, y]);
-
-                }
-                Console.Write("\n");
+                   
+                }              
             }
         }
     }
