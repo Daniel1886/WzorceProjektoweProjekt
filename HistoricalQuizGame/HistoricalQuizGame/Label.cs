@@ -13,5 +13,9 @@ namespace HistoricalQuizGame
             this.position = pos;
             this.text = text;
         }
+        public void SetText(string text)
+        {
+            this.text = text;
+        }
     }
 }
