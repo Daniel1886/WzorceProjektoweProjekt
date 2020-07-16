@@ -71,9 +71,7 @@ namespace HistoricalQuizGame
             endButton.SetSelectColors(ConsoleColor.Cyan, ConsoleColor.Black, ConsoleColor.DarkCyan);
             Label endLabel = new Label("Twój wynik to :", new Vector2Int(2, 2));
 
-            btnEvents.AddButton(nextButton);
-            btnEvents.Previous();
-            btnEvents.Next();
+                   
 
             button.Subscribe(gameManager);
             button2.Subscribe(gameManager);
@@ -112,9 +110,9 @@ namespace HistoricalQuizGame
                             btnEvents.AddButton(button2);
                             btnEvents.AddButton(button3);
                             btnEvents.AddButton(button4);
-                            btnEvents.AddButton(nextButton);
+                          
                             var q = gameManager.GetCurrentQuestion();
-                            btnEvents.SelectBtn(0);
+                         
                             btnEvents.FocusBtn(0);
 
                             _ui.InitWindow();
@@ -130,14 +128,21 @@ namespace HistoricalQuizGame
                                 _ui.DrowButton(buttons[index]);
                                 index += 1;
                             }
-                            _ui.DrowButton(nextButton);
+
+                            if (gameManager.canNext)
+                            {
+                                nextButton.Unfocus();
+                                _ui.DrowButton(nextButton);
+                                btnEvents.AddButton(nextButton);
+                            }
+                          
                             _ui.Refresh();
                             gameManager.refresh = false;
                             break;
                         case ViewType.End:
                             btnEvents.Clear();
                             btnEvents.AddButton(restartButton);
-                            btnEvents.SelectBtn(0);
+                            //btnEvents.SelectBtn(0);
                             btnEvents.FocusBtn(0);
                             btnEvents.AddButton(endButton);
                             endLabel.text = "Twój wynik to : " + gameManager.GetPointsString();

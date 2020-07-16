@@ -19,6 +19,7 @@ namespace HistoricalQuizGame
         private bool corectSelected = false;
         public bool refresh = true;
         public bool end = false;
+        public bool canNext = false;
         
         public ViewType acutalView = ViewType.Start;
         private GameManager() {
@@ -58,7 +59,7 @@ namespace HistoricalQuizGame
         {
             if(btn.tag == ButtonTag.Next)
             {
-                
+                canNext = false;
                 if (corectSelected)
                 {
                     points += 1;
@@ -90,6 +91,8 @@ namespace HistoricalQuizGame
             }
             if(btn.tag == ButtonTag.Answer)
             {
+                canNext = true;
+                refresh = true;
                 var q = this.questions[current];
                 foreach(var a in q.answers) 
                 {

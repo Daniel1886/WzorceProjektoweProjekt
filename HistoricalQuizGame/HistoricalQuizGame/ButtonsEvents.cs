@@ -77,14 +77,12 @@ namespace HistoricalQuizGame
         {
             if (this.buttons[currentSelected].IsSelectable())
             {
-                if (lastSelectedBtn != null)
+                foreach(var b in buttons)
                 {
-                    lastSelectedBtn.Deselect();
-                    _ui.DrowButton(lastSelectedBtn);
+                    b.Deselect();
                 }
-                lastSelectedBtn = this.buttons[currentSelected];          
-                lastSelectedBtn.Select();
-                _ui.DrowButton(lastSelectedBtn);
+                this.buttons[currentSelected].Select();                     
+                _ui.DrowButton(this.buttons[currentSelected]);
             }       
         }
     }
